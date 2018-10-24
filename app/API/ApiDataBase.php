@@ -8,9 +8,11 @@ abstract class ApiDataBase
     protected $link;
     protected $params = [];
     protected $saveData;
+    protected $flagStop;
     
     public function __construct(SaveDataApiInterface $saveData) {
         $this->saveData = $saveData;
+        $this->flagStop = false;
     }
     
     public function getDataApi()
@@ -23,7 +25,7 @@ abstract class ApiDataBase
             $data = curl_exec( $c );
             $status_code = curl_getinfo( $c, CURLINFO_HTTP_CODE );
             curl_close( $c );
-            
+
             if ($status_code !== 200){
                 if ($errors > 5) {
                     Log::error('Синхронизация прервана из за ошибки. Данные: '. $this->getLinkParamsRender(). ' HTTP STATUS: '. $status_code);
@@ -39,7 +41,11 @@ abstract class ApiDataBase
                 $this->saveData->saveDataApi($data);
             } 
             $this->doIteration();
-        } while ( !empty($data) || count($data) !== 0 );   
+
+            if($this->flagStop){
+                break;
+            }
+        } while ( !empty($data) || count($data) !== 0);
     }
     
     public function sendDataApi(array $data)
@@ -59,7 +65,6 @@ abstract class ApiDataBase
             $output = curl_exec($ch);  
 
         curl_close($ch);
-        debug($status_code, $output);
     }
     
     public function setKey($key)

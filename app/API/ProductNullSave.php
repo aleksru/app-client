@@ -8,6 +8,6 @@ class ProductNullSave implements SaveDataApiInterface
     
     public function saveDataApi($data)
     {
-       ////////////
+       $this->data = $data;
     }
 }
