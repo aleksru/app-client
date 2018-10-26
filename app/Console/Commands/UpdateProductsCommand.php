@@ -50,7 +50,7 @@ class UpdateProductsCommand extends Command
             (new \App\API\ApiGetProduct($productApiSave))->getDataApi();
             Product::enableDefaultProducts();
         }
-        Log::error("Обновление товаров завершено. Обновлено: ". ($productApiSave->counter ?? '0')." товара.");
+        Log::error("Обновление товаров завершено. Обновлено: ". ($productApiSave->counter)." товара.");
         Cache::put('price_version', $productNullSave->data[env('API_PRICELIST_STORE')], Carbon::now()->addDay());
 
     }
