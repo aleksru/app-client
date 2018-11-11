@@ -44,14 +44,13 @@ class UpdateProductsCommand extends Command
     public function handle(ProductNullSave $productNullSave, ProductApiSave $productApiSave)
     {
         (new \App\API\ApiGetPriceListVersion($productNullSave))->getDataApi();
-        Log::error("Начало синхронизации. Текущая версия прайс-листа: ".Cache::get('price_version')." Актуальная:".$productNullSave->data[env('API_PRICELIST_STORE')]);
-
-        if(Cache::get('price_version') != $productNullSave->data[env('API_PRICELIST_STORE')]){
+        Log::error("Начало синхронизации. Текущая версия прайс-листа: ".setting('price_version')." Актуальная:".$productNullSave->data[env('API_PRICELIST_STORE')]);
+        if(setting('price_version') != $productNullSave->data[env('API_PRICELIST_STORE')]){
             (new \App\API\ApiGetProduct($productApiSave))->getDataApi();
             Product::enableDefaultProducts();
         }
         Log::error("Обновление товаров завершено. Обновлено: ". ($productApiSave->counter)." товара.");
-        Cache::put('price_version', $productNullSave->data[env('API_PRICELIST_STORE')], Carbon::now()->addDay());
+        setting(['price_version' => $productNullSave->data[env('API_PRICELIST_STORE')]])->save();
 
     }
 }
