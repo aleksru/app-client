@@ -49,11 +49,11 @@ class SendOrdersCommand extends Command
             foreach ($getOrders as $getOrder) {
                 $order = [
                     'name_customer' => !empty($getOrder->firstname) ? $getOrder->firstname : 'No name',
-                    'store' =>env('APP_URL'),
+                    'store_text' =>env('APP_URL'),
+                    'store_id' =>env('API_STORE_PHONE'),
                     'phone' => !empty($getOrder->telephone) ? $getOrder->telephone : 'No phone',
-                    'total' => !empty($getOrder->total) ? $getOrder->total : 'No total',
-                    'comment' => !empty($getOrder->comment) ? $getOrder->comment : 'No comment',
-                    'products' => json_encode([['articul' =>'none', 'name'=>'none', 'price'=>'none']], JSON_UNESCAPED_SLASHES), 
+                    'comment' => !empty($getOrder->comment) ? $getOrder->comment : '-',
+                    'products' => null,
                 ];
 
                 if (!$getOrder->products->isEmpty()){
