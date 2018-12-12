@@ -68,7 +68,11 @@ class SendOrdersCommand extends Command
                     $order['products'] = json_encode($products, JSON_UNESCAPED_SLASHES);
                 }
                 $data = new \App\API\ProductNullSave();
-                (new \App\API\ApiPostOrder($data))->sendDataApi($order);
+
+                if (!empty($getOrder->telephone)) {
+                    (new \App\API\ApiPostOrder($data))->sendDataApi($order);
+                }
+
                 SendOrder::create(['order_id' => $getOrder->order_id]);
                 Log::error("Заказ отправлен в лк. ИД: ".$getOrder->order_id);
                 
