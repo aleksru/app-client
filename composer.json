@@ -9,6 +9,7 @@
         "akaunting/setting": "^1.0",
         "barryvdh/laravel-debugbar": "~2.4",
         "doctrine/inflector": "1.1.0",
+        "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0"
     },

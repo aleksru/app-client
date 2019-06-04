@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\API\ProductApiSave;
 use App\API\ProductNullSave;
+use App\API\Service\ApiGetPriceList;
 use App\Product;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
@@ -41,16 +42,20 @@ class UpdateProductsCommand extends Command
      *
      * @return mixed
      */
-    public function handle(ProductNullSave $productNullSave, ProductApiSave $productApiSave)
+    public function handle(ProductApiSave $productApiSave)
     {
-        (new \App\API\ApiGetPriceListVersion($productNullSave))->getDataApi();
-        Log::error("Начало синхронизации. Текущая версия прайс-листа: ".setting('price_version')." Актуальная:".$productNullSave->data[env('API_PRICELIST_STORE')]);
-        if(setting('price_version') != $productNullSave->data[env('API_PRICELIST_STORE')]){
+        (new ApiGetPriceList())->updatePriceList();
+        $priceList = setting('price_list');
+        $priceListVer = setting('price_version');
+        $priceListSys = setting('price_list_system_version');
+        Log::error("Запрос на обновление цен. Прайс: {$priceList}, Version: $priceListVer");
+        if($priceList && $priceListVer !== $priceListSys){
+            Log::error("Начало синхронизации. Текущая версия прайс-листа: ". $priceListVer." Актуальная:" . $priceListSys);
             (new \App\API\ApiGetProduct($productApiSave))->getDataApi();
             Product::enableDefaultProducts();
+            setting(['price_version' => $priceListSys]);
+            setting()->save();
+            Log::error("Обновление товаров завершено. Обновлено: ". ($productApiSave->counter)." товара.");
         }
-        Log::error("Обновление товаров завершено. Обновлено: ". ($productApiSave->counter)." товара.");
-        setting(['price_version' => $productNullSave->data[env('API_PRICELIST_STORE')]])->save();
-
     }
 }

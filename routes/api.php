@@ -16,3 +16,9 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+
+Route::group(['prefix' => 'laravel-services', 'middleware' => ['apiSec']], function (){
+    Route::get('run-update-prices', 'PricesController@updatePrices');
+});
