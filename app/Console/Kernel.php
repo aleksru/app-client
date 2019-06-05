@@ -14,7 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         'App\Console\Commands\SendOrdersCommand',
-        'App\Console\Commands\UpdateProductsCommand'
+        'App\Console\Commands\UpdateProductsCommand',
+        'App\Console\Commands\CustomUpdatePrices',
     ];
 
     /**
@@ -27,6 +28,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('update-products')->twiceDaily(0, $second = 12);
         $schedule->command('send-orders')->everyMinute();
+        $schedule->command('update-prices')->everyFiveMinutes();
     }
 
     /**

@@ -48,8 +48,8 @@ class UpdateProductsCommand extends Command
         $priceList = setting('price_list');
         $priceListVer = setting('price_version');
         $priceListSys = setting('price_list_system_version');
-        Log::error("Запрос на обновление цен. Прайс: {$priceList}, Version: $priceListVer");
-        if($priceList && $priceListVer !== $priceListSys){
+        Log::error("Запрос на обновление цен. Прайс: {$priceList}, Version: $priceListVer, SystemVersion: $priceListSys");
+        if($priceList && $priceListVer != $priceListSys){
             Log::error("Начало синхронизации. Текущая версия прайс-листа: ". $priceListVer." Актуальная:" . $priceListSys);
             (new \App\API\ApiGetProduct($productApiSave))->getDataApi();
             Product::enableDefaultProducts();
