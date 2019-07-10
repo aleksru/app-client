@@ -6,11 +6,11 @@ class ApiGetProduct extends ApiDataBase
     public function __construct(SaveDataApiInterface $saveData) {
         $this->key = env('APP_API_KEY');
         $this->link = env('API_GET_PRODUCT_LINK');
-        $this->pricelist = env('API_PRICELIST_STORE');
+        $this->pricelist = setting('price_list');
         $this->params = [
                          'key' => $this->key,
                          'pricelist' => $this->pricelist,
-                         'count' => 50,
+                         'count' => 500,
                          "page" => 0
                         ];
         parent::__construct($saveData);

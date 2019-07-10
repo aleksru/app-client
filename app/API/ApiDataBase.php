@@ -22,6 +22,7 @@ abstract class ApiDataBase
             $c = curl_init();
             curl_setopt( $c, CURLOPT_URL, $this->getLinkParamsRender() );
             curl_setopt( $c, CURLOPT_RETURNTRANSFER, true );
+            curl_setopt($c, CURLOPT_FOLLOWLOCATION, true);
             $data = curl_exec( $c );
             $status_code = curl_getinfo( $c, CURLINFO_HTTP_CODE );
             curl_close( $c );
@@ -59,12 +60,15 @@ abstract class ApiDataBase
             curl_setopt($ch, CURLOPT_POST, 1);  
             // добавляем переменные  
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-            
+
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
             $status_code = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
             
             $output = curl_exec($ch);  
 
         curl_close($ch);
+
+        return ['result' => $output, 'status' => $status_code];
     }
     
     public function setKey($key)

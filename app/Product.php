@@ -25,6 +25,11 @@ class Product extends Model
         return $this->hasOne(ProductDescription::class, 'product_id', 'product_id');
     }
 
+    public function special()
+    {
+        return $this->hasOne(ProductSpecial::class, 'product_id', 'product_id');
+    }
+
     /**
      * Включение товаров по умолчанию
      */

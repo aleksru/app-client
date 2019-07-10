@@ -70,12 +70,12 @@ class SendOrdersCommand extends Command
                 $data = new \App\API\ProductNullSave();
 
                 if (!empty($getOrder->telephone)) {
-                    (new \App\API\ApiPostOrder($data))->sendDataApi($order);
+                    $res = (new \App\API\ApiPostOrder($data))->sendDataApi($order);
+                    Log::error("Заказ отправлен в лк. ИД: " . $getOrder->order_id . '. Результат: ' .
+                                 $res['result'] . ' .HTTP_STATUS: ' . $res['status']);
                 }
 
                 SendOrder::create(['order_id' => $getOrder->order_id]);
-                Log::error("Заказ отправлен в лк. ИД: ".$getOrder->order_id);
-                
             }
         }
         
