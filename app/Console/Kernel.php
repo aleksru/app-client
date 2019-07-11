@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         'App\Console\Commands\SendOrdersCommand',
         'App\Console\Commands\UpdateProductsCommand',
         'App\Console\Commands\CustomUpdatePrices',
+        'App\Console\Commands\SendStateStore',
     ];
 
     /**
@@ -29,6 +30,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('update-products')->twiceDaily(0, $second = 12);
         $schedule->command('send-orders')->everyMinute();
         $schedule->command('update-prices')->everyFiveMinutes();
+        $schedule->command('send:state')->everyThirtyMinutes();
     }
 
     /**
