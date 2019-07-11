@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('update-products')->twiceDaily(0, $second = 12);
         $schedule->command('send-orders')->everyMinute();
         $schedule->command('update-prices')->everyFiveMinutes();
-        $schedule->command('send:state')->everyThirtyMinutes();
+        $schedule->command('send-state')->everyThirtyMinutes();
     }
 
     /**

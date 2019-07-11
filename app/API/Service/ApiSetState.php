@@ -9,7 +9,7 @@ use GuzzleHttp\Client;
 
 class ApiSetState
 {
-    private $url = 'http://lk-skycom.shop/api/v2/store/set-online';
+    private $url = 'https://lk-skycom.shop/api/v2/store/set-online';
 
     public function send()
     {
