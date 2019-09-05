@@ -54,6 +54,7 @@ class SendOrdersCommand extends Command
                     'phone' => !empty($getOrder->telephone) ? $getOrder->telephone : 'No phone',
                     'comment' => !empty($getOrder->comment) ? $getOrder->comment : '-',
                     'products' => null,
+                    'utm_source' => $getOrder->utm_source
                 ];
 
                 if (!$getOrder->products->isEmpty()){
